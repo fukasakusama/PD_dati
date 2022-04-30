@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Publiskā datubāze</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
+</head>
+<body>
+    <div class="database">
+        <div class="content-welcome" style="background: white;">
+            <a href="welcome.html"><img src="images/arrow.png" style="width:1.5em; margin-top: 4%;margin-left:5%;"></a>
+            <h1 style="text-align: left; color:#ff0079; font-size: 3rem;position:relative;margin-left:5%; ">Publiskā datubāze</h1>
+            <p style="color:#303030;margin-left:5%;">Šajā datubāzē Tu vari apskatīt pieejamās vielas un aprīkojumu</p>
+            
+            <div style="margin-top:4%;">
+                <input type="search" placeholder="Meklēt" id="search" style="margin-left:5%; width:25%">
+                <button class="btn"  style="border-radius: 2em;margin-left:1%" onclick="showAll()">Rādīt visu</button>
+                <button class="btn transparent" style="border-radius: 2em;margin-left:1%" onclick="showVielas()">Rādīt vielas</button>
+                <button class="btn transparent" style="border-radius: 2em;margin-left:1%" onclick="showAprikojums()">Rādīt aprīkojumu</button>
+                <hr style="margin-top: 2%;">
+            </div>
+            
+        </div>
+
+        <div class="content-data">
+            <table style="border-collapse: collapse; font-size: 1.2em; width:90%; margin-left:5%" >
+                <tr>
+                    <th>ID</th>
+                    <th>Nosaukums</th>
+                    <th>Tips</th>
+                    <th>Apakštips</th>
+                    <th>Skaits</th>
+                    <th>Svars</th>
+                    <th>Komentāri</th>
+                </tr>
+
+                
+                <tbody id="myTable">
+
+                </tbody>
+            </table>
+            
+        </div>
+        
+
+    </div>
+</body>
+</html>
+
+<script>
+    
+    function check(value){
+        if (typeof value == "undefined"){
+            value = "nav datu"
+            return value
+        }
+        else{
+            return value
+        }
+    }
+    function showAprikojums(){
+        $(document).ready(function(){
+        $.getJSON("./data/inventars.json" , function(data){
+            var json_data = ''
+            
+            $.each(data, function(key, value){
+                json_data += `<tr>
+                                        <td>${check(value.id)}</td>
+                                        <td>${check(value.nosaukums)}</td>
+                                        <td>${check(value.tips)}</td>
+                                        <td>${check(value.apakstips)}</td>
+                                        <td>${check(value.skaits)}</td>
+                                        <td>${check(value.svars)}</td>
+                                        <td>${check(value.komentari)}</td>
+                                  </tr>`
+            })
+            $('#myTable').empty()
+            $('#myTable').append(json_data)
+
+        })
+    });
+    }
+
+
+
+    
+
+    function showVielas(){
+        $(document).ready(function(){
+        $.getJSON("./data/vielas.json" , function(data){
+            var json_data = ''
+            
+            $.each(data, function(key, value){
+                json_data += `<tr>
+                                        <td>${check(value.id)}</td>
+                                        <td>${check(value.nosaukums)}</td>
+                                        <td>${check(value.tips)}</td>
+                                        <td>${check(value.apakstips)}</td>
+                                        <td>${check(value.skaits)}</td>
+                                        <td>${check(value.daudzums+value.mervienibas)}</td>
+                                        <td>${check(value.komentari)}</td>
+                                  </tr>`
+            })
+            $('#myTable').empty()
+            $('#myTable').append(json_data)
+
+        })
+    });
+    }
+    
+    function showAll(){
+        
+    $(document).ready(function(){
+        $.getJSON("./data/vielas.json", function(data){
+            $('#myTable').empty()
+            var json_data = ''
+
+            $.each(data, function(key, value){
+                json_data += `<tr>
+                                        <td>${check(value.id)}</td>
+                                        <td>${check(value.nosaukums)}</td>
+                                        <td>${check(value.tips)}</td>
+                                        <td>${check(value.apakstips)}</td>
+                                        <td>${check(value.skaits)}</td>
+                                        <td>${check(value.daudzums+value.mervienibas)}</td>
+                                        <td>${check(value.komentari)}</td>
+                                  </tr>`
+            })
+            $('#myTable').append(json_data)
+        })
+        $.getJSON("./data/inventars.json" , function(data){
+            var json_data = ''
+            $.each(data, function(key, value){
+                json_data += `<tr>
+                                        <td>${check(value.id)}</td>
+                                        <td>${check(value.nosaukums)}</td>
+                                        <td>${check(value.tips)}</td>
+                                        <td>${check(value.apakstips)}</td>
+                                        <td>${check(value.skaits)}</td>
+                                        <td>${check(value.svars)}</td>
+                                        <td>${check(value.komentari)}</td>
+                                  </tr>`
+            })
+            $('#myTable').append(json_data)
+        })
+        
+    })
+
+    }
+
+
+    
+    
+</script>
